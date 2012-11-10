@@ -1,0 +1,25 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {% stylesheets '@ConsoleGameBundle/Resources/public/css/*.scss' output='/css/page.css' filter='?yui_css,compass' %}
+    <link href="{{ asset_url }}" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts '@ConsoleGameBundle/Resources/public/js/jquery/*.js' output='/js/jquery.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% javascripts '@ConsoleGameBundle/Resources/public/js/*.js' output='/js/consolegame.js' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block body %}
+<div id="container">
+    <div id="console">
+{% block content %}
+{% endblock %}
+    </div>
+</div>
+{% endblock %}

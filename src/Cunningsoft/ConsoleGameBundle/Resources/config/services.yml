@@ -1,0 +1,7 @@
+parameters:
+#    console_game.example.class: Cunningsoft\ConsoleGameBundle\Example
+
+services:
+#    console_game.example:
+#        class: %console_game.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
