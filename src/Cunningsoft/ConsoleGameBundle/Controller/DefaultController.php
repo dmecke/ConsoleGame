@@ -4,8 +4,6 @@ namespace Cunningsoft\ConsoleGameBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -13,7 +11,7 @@ use Symfony\Component\Routing\Exception\RouteNotFoundException;
 /**
  * @Route("/")
  */
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
     /**
      * @return array
@@ -35,30 +33,14 @@ class DefaultController extends Controller
      */
     public function commandAction(Request $request)
     {
-        list($controller, $params) = $this->parseCommand($request->get('input'));
+        list($command, $subcommand) = $this->parseCommand($request->get('input'));
 
         try {
-            $this->getRouter()->generate('cunningsoft_consolegame_command_' . $controller);
+            $this->getRouter()->generate('cunningsoft_consolegame_command_' . $command);
         } catch (RouteNotFoundException $e) {
-            return new Response('unknown command "' . $controller . '"');
+            return new Response('unknown command "' . $command . '"');
         }
-        return $this->forward('ConsoleGameBundle:Command:' . $controller, array('params' => $params));
-    }
 
-    private function parseCommand($command)
-    {
-        $splitCommand = explode(' ', $command);
-        $controller = array_shift($splitCommand);
-        $params = $splitCommand;
-
-        return array($controller, $params);
-    }
-
-    /**
-     * @return Router
-     */
-    private function getRouter()
-    {
-        return $this->get('router');
+        return $this->forward('ConsoleGameBundle:Command:' . $command, array('command' => $subcommand));
     }
 }

@@ -3,24 +3,31 @@
 namespace Cunningsoft\ConsoleGameBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * @Route("/command")
  */
-class CommandController extends Controller
+class CommandController extends BaseController
 {
     /**
-     * @param array $params
+     * @param string $command
      *
      * @return Response
      *
-     * @Route("/help")
+     * @Route("/inventory")
      */
-    public function helpAction(array $params)
+    public function inventoryAction($command)
     {
-        return new Response('this is the help action');
-    }
+        list($command, $subcommand) = $this->parseCommand($command);
 
+        try {
+            $this->getRouter()->generate('cunningsoft_consolegame_inventory_' . $command);
+        } catch (RouteNotFoundException $e) {
+            return new Response('unknown command "' . $command . '"');
+        }
+
+        return $this->forward('ConsoleGameBundle:Inventory:' . $command, array('command' => $subcommand));
+    }
 }
