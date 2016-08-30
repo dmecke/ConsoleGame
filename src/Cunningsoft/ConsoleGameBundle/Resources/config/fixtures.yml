@@ -1,0 +1,10 @@
+Cunningsoft\ConsoleGameBundle\Entity\User:
+    user1:
+        username: FenchelT
+    user{2..100}:
+        username: <username()>
+
+Cunningsoft\ConsoleGameBundle\Entity\Inventory:
+    inventory{1..100}:
+        user: @user<current()>
+        wood: 50

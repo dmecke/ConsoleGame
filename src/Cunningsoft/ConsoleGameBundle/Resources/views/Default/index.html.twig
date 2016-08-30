@@ -10,7 +10,9 @@ $('#input').keyup(function(e) {
     if (e.keyCode == 13) { // enter
         command.historyAdd($('#input').val());
         $.post('{{ path('command') }}', { input: $('#input').val() }, function(output) {
-            $('#output').append($('<li>').append(output));
+            $.each($.parseJSON(output), function(key, element) {
+                $('#output').append($('<li>').append(element));
+            });
             $('#input').val('');
         });
     } else if (e.keyCode == 38) { // up

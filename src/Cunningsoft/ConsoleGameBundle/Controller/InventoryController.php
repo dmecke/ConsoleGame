@@ -14,6 +14,6 @@ class InventoryController extends BaseController
      */
     public function listAction()
     {
-        return new Response('list');
+        return new Response(json_encode(array('list')));
     }
 }
